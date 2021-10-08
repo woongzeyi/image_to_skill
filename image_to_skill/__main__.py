@@ -3,7 +3,7 @@ from os.path import isfile, join
 from typing import Dict, List
 from filetype import is_image
 from filetype.types import image
-from .image_processor import ImageColorDetails, get_color_details_from_image
+from .image_processor import ImageDetails, get_color_details_from_image
 from .code_generation import generate_code
 
 def main():
@@ -18,14 +18,15 @@ def main():
         if is_image(join(images_directory, f))
     ]
 
-    image_to_colors: Dict[str, ImageColorDetails] = {}
+    image_to_details: Dict[str, ImageDetails] = {}
     for i in images:
-        image_to_colors[i] = get_color_details_from_image(join(images_directory, i))
+        image_to_details[i] = get_color_details_from_image(join(images_directory, i))
 
     image_to_code: Dict[str, str] = {}
-    for key, value in image_to_colors.items():
+    for key, value in image_to_details.items():
         image_to_code[key] = generate_code(value)
-    print(image_to_code)
+    for key, value in image_to_code.items():
+        print("{}: \n{}".format(key, value))
 
 if __name__ == "__main__":
     main()
