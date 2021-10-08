@@ -6,6 +6,8 @@ authors = ["Woong Ze Yi <woongzeyi@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+Pillow = "^8.3.2"
+pyinstaller = "^4.5.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
