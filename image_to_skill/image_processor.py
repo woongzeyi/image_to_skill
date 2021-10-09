@@ -14,7 +14,7 @@ class ImageDetails:
         return "ImageColorDetails{{width: {self.width}, height: {self.height}, pixel_colors: {self.pixel_colors}}}".format(self = self)
 
 def get_color_details_from_image(img_path: str) -> ImageDetails:
-    with Image.open(img_path) as im:
+    with Image.open(img_path).convert("RGBA") as im:
         color_access = im.load()
         return ImageDetails(
             name = basename(img_path), 
