@@ -1,4 +1,4 @@
-from os.path import basename
+from os.path import basename, splitext
 from typing import List, Tuple
 from PIL import Image
 from PIL.PyAccess import PyAccess
@@ -17,7 +17,7 @@ def get_color_details_from_image(img_path: str) -> ImageDetails:
     with Image.open(img_path).convert("RGBA") as im:
         color_access = im.load()
         return ImageDetails(
-            name = basename(img_path), 
+            name = splitext(basename(img_path))[0], 
             width = im.size[0],
             height = im.size[1],
             pixel_colors = [[color_access[x, y] for x in range(im.size[0])] for y in range(im.size[1])]
