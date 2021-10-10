@@ -31,14 +31,15 @@ def generate_code(image_details: ImageDetails) -> str:
     code += "{}: \n  Skills: \n".format(image_details.name)
     for y_index, colors_at_y in enumerate(image_details.pixel_colors):
         for x_index, color_at_xy in enumerate(colors_at_y):
-            if color_at_xy[3] < 255:
+            if color_at_xy[3] == 0:
                 continue
-            code += "    - effect:particles{{a=1;c={c};forwardOffset={fo};sideOffset={so};y={y}}}\n".format(
+            code += "    - effect:particles{{amount=1;color={c};Size={s};forwardOffset={fo};sideOffset={so};yOffset={y}}}\n".format(
                 c = "#{0:02x}{1:02x}{2:02x}".format(color_at_xy[0], color_at_xy[1], color_at_xy[2]),
-                fo = round(foward_offset + y_index * 0.2, 1) if mode == "OF" else foward_offset,
                 # Number rounding is needed due to inaccuracy on floating point number calculations
-                so = round(side_offset - x_index * 0.2, 1),
-                y = y_offset if mode == "OF" else round(y_offset - y_index * 0.2, 1)
+                s = round(color_at_xy[3] / 255, 3),
+                fo = round(foward_offset + y_index * 0.2, 3) if mode == "OF" else round(foward_offset, 3),
+                so = round(side_offset - x_index * 0.2, 3),
+                y = round(y_offset, 3) if mode == "OF" else round(y_offset - y_index * 0.2, 3)
             )
 
     return code
