@@ -18,7 +18,7 @@ def main():
     ]
 
     for i in images:
-        with open(join(images_directory, splitext(i)[0] + ".yaml"), 'w') as yaml_file:
+        with open(join(images_directory, splitext(i)[0] + ".yml"), 'w') as yaml_file:
             yaml_file.write(generate_code(get_color_details_from_image(join(images_directory, i))))
         
 if __name__ == "__main__":
