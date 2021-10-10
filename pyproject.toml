@@ -1,7 +1,8 @@
 [tool.poetry]
 name = "image_to_skill"
 version = "0.1.0"
-description = ""
+description = "Convert images to MythicMobs skills."
+license = "Apache-2.0"
 authors = ["Woong Ze Yi <woongzeyi@gmail.com>"]
 
 [tool.poetry.dependencies]
