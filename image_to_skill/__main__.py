@@ -16,10 +16,15 @@ def main():
         if isfile(join(images_directory, f)) 
         if is_image(join(images_directory, f))
     ]
+    print("Images found: \n{}\n\n\n".format(images), end = "")
 
-    for i in images:
-        with open(join(images_directory, splitext(i)[0] + ".yml"), 'w') as yaml_file:
-            yaml_file.write(generate_code(get_color_details_from_image(join(images_directory, i))))
+    if images.count != 0:
+        for i in images:
+            with open(join(images_directory, splitext(i)[0] + ".yml"), 'w') as yaml_file:
+                yaml_file.write(generate_code(get_color_details_from_image(join(images_directory, i))))
+            print("\n\n\n", end="")
+    else:
+        print("Execution ended due to no image found.")
         
 if __name__ == "__main__":
     main()
