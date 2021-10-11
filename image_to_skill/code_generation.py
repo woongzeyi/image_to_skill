@@ -4,7 +4,7 @@ from image_to_skill.image_processor import ImageDetails
 def generate_code(image_details: ImageDetails) -> str:
     code: str = ""
 
-    print("<< Configuration of code generation from image `{}` >>".format(image_details.name))
+    print("-- Configuration --")
     mode: str = input("Mode: ")
     base_fo: float = float(input("Base forward offset: "))
     base_so: float = float(input("Base side offset: "))
@@ -24,7 +24,7 @@ def generate_code(image_details: ImageDetails) -> str:
         y_offset: float = image_details.height * 0.2 + base_y
     print()
 
-    print("Generating code from image `{}`...".format(image_details.name))
+    print("-- Generating --")
     with tqdm(
         total = image_details.height * image_details.width,
         unit = "px",

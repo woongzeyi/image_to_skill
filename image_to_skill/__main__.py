@@ -18,8 +18,9 @@ def main():
     ]
     print("Images found: \n{}\n\n\n".format(images), end = "")
 
-    if images.count != 0:
+    if images:
         for i in images:
+            print("<< {} >>".format(i))
             with open(join(images_directory, splitext(i)[0] + ".yml"), 'w') as yaml_file:
                 yaml_file.write(generate_code(get_color_details_from_image(join(images_directory, i))))
             print("\n\n\n", end="")
