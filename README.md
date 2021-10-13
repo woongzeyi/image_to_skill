@@ -37,3 +37,7 @@ Base forward offset: The x distance of the skill and the caster
 Base side offset: The z distance of the skill and the caster
 
 Base Y offset: The y distance of the skill and the caster
+
+## License
+
+Licensed under the Apache License 2.0
