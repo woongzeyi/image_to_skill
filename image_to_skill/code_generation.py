@@ -85,7 +85,7 @@ def generate_code(image_details: ImageDetails) -> str:
         side_offset: float = image_details.width * particle_interval / 2 + base_so
         y_offset: float = image_details.height * particle_interval + base_y
     elif mode == "VT":
-        foward_offset: float = image_details.height * particle_interval / 2 + base_fo
+        foward_offset: float = image_details.height * -particle_interval / 2 + base_fo
         side_offset: float = image_details.width * particle_interval / 2 + base_so
         y_offset: float = base_y
     else:
