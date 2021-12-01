@@ -1,134 +1,130 @@
 """A module for generating particle code files. """
 
-from typing import List
-from tqdm import tqdm
+from typing import Iterator
+from dataclasses import dataclass, field
+from enum import Enum
 from image_to_skill.image_processor import ImageDetails
 
-KNOWN_PARTICLE_TYPES: List[str] = [
-    "barrier",
-    "block_crack",
-    "bubble",
-    "bubble_column",
-    "bubble_pop",
-    "cloud",
-    "crimson_spore",
-    "crit",
-    "crit_magic",
-    "current_down",
-    "damage_indicator",
-    "dolphin",
-    "dragon_breath",
-    "drip_lava",
-    "dripping_obsidian_tear",
-    "drip_water",
-    "enchantment_table",
-    "end_rod",
-    "explosion_normal",
-    "explosion_huge",
-    "explosion_large",
-    "falling_dust",
-    "falling_obsidian_tear",
-    "fireworks_spark",
-    "flame",
-    "footstep",
-    "heart",
-    "item_crack",
-    "landing_obsidian_tear",
-    "lava",
-    "mob_appearance",
-    "nautilus",
-    "note",
-    "portal",
-    "redstone",
-    "slime",
-    "smoke_large",
-    "smoke_normal",
-    "snowball",
-    "snow_shovel",
-    "soul",
-    "soul_fire_flame",
-    "spell_instant",
-    "spell_mob",
-    "spell_mob_ambient",
-    "spell_witch",
-    "splash",
-    "squid_ink",
-    "suspended",
-    "suspended_depth",
-    "sweep_attack",
-    "town_aura",
-    "villager_angry",
-    "villager_happy",
-    "wake",
-    "warped_spore",
-]
+
+class Mode(Enum):
+    """Modes for particle positioning. """
+    HORIZONTAL = "HR"
+    VERTICAL = "VT"
 
 
-def generate_code(image_details: ImageDetails) -> str:
-    """Takes in an ImageDetails object and returns a string of code generated from it"""
+class ParticleType(Enum):
+    """Available particle types for generated particles. """
+    BARRIER = "barrier"
+    BLOCK_CRACK = "block_crack"
+    BUBBLE = "bubble"
+    BUBBLE_COLUMN = "bubble_column"
+    BUBBLE_POP = "bubble_pop"
+    CLOUD = "cloud"
+    CRIMSON_SPORE = "crimson_spore"
+    CRIT = "crit"
+    CRIT_MAGIC = "crit_magic"
+    CURRENT_DOWN = "current_down"
+    DAMAGE_INDICATOR = "damage_indicator"
+    DOLPHIN = "dolphin"
+    DRAGON_BREATH = "dragon_breath"
+    DRIP_LAVA = "drip_lava"
+    DRIPPING_OBSIDIAN_TEAR = "dripping_obsidian_tear"
+    DRIP_WATER = "drip_water"
+    ENCHANTMENT_TABLE = "enchantment_table"
+    END_ROD = "end_rod"
+    EXPLOSION_NORMAL = "explosion_normal"
+    EXPLOSION_HUGE = "explosion_huge"
+    EXPLOSION_LARGE = "explosion_large"
+    FALLING_DUST = "falling_dust"
+    FALLING_OBSIDIAN_TEAR = "falling_obsidian_tear"
+    FIREWORKS_SPARK = "fireworks_spark"
+    FLAME = "flame"
+    FOOTSTEP = "footstep"
+    HEART = "heart"
+    ITEM_CRACK = "item_crack"
+    LANDING_OBSIDIAN_TEAR = "landing_obsidian_tear"
+    LAVA = "lava"
+    MOB_APPEARANCE = "mob_appearance"
+    NAUTILUS = "nautilus"
+    NOTE = "note"
+    PORTAL = "portal"
+    REDSTONE = "redstone"
+    SLIME = "slime"
+    SMOKE_LARGE = "smoke_large"
+    SMOKE_NORMAL = "smoke_normal"
+    SNOWBALL = "snowball"
+    SNOW_SHOVEL = "snow_shovel"
+    SOUL = "soul"
+    SOUL_FIRE_FLAME = "soul_fire_flame"
+    SPELL_INSTANT = "spell_instant"
+    SPELL_MOB = "spell_mob"
+    SPELL_MOB_AMBIENT = "spell_mob_ambient"
+    SPELL_WITCH = "spell_witch"
+    SPLASH = "splash"
+    SQUID_INK = "squid_ink"
+    SUSPENDED = "suspended"
+    SUSPENDED_DEPTH = "suspended_depth"
+    SWEEP_ATTACK = "sweep_attack"
+    TOWN_AURA = "town_aura"
+    VILLAGER_ANGRY = "villager_angry"
+    VILLAGER_HAPPY = "villager_happy"
+    WAKE = "wake"
+    WARPED_SPORE = "warped_spore"
 
-    code: str = ""
 
-    # getting config values
-    print("-- Configuration --")
-    mode: str = input("Mode: ")
-    particle_type: str = input("Particle type: ")
-    particle_interval: float = float(input("Particle interval: "))
-    particle_size: float = float(input("Particle size: "))
-    base_fo: float = float(input("Base forward offset: "))
-    base_so: float = float(input("Base side offset: "))
-    base_y: float = float(input("Base Y offset: "))
+@dataclass
+# pylint: disable-next=R0902
+class CodeGenerator:
+    """A dataclass responsible for taking in its own required configuration and
+    generating code from it.
+    """
 
-    # particle_type check
-    if particle_type not in KNOWN_PARTICLE_TYPES:
-        print("!: Invalid or blank particle type, particle type defaulted to redstone.")
-        particle_type = "redstone"
+    mode: Mode
+    particle_type: ParticleType
+    particle_interval: float
+    particle_size: float
+    base_forward_offset: float
+    base_side_offset: float
+    base_y_offset: float
+    image: ImageDetails
 
-    # foward_offset, side_offset, y_offset calculation
-    if mode == "HR":
-        foward_offset: float = base_fo
-        side_offset: float = image_details.width * particle_interval / 2 + base_so
-        y_offset: float = image_details.height * particle_interval + base_y
-    elif mode == "VT":
-        foward_offset: float = image_details.height * -particle_interval / 2 + base_fo
-        side_offset: float = image_details.width * particle_interval / 2 + base_so
-        y_offset: float = base_y
-    else:
-        print("!: Invalid or blank mode, mode defaulted to HR.")
-        foward_offset: float = base_fo
-        side_offset: float = image_details.width * particle_interval / 2 + base_so
-        y_offset: float = image_details.height * particle_interval + base_y
-    print()
+    forward_offset: float = field(init=False)
+    side_offset: float = field(init=False)
+    y_offset: float = field(init=False)
 
-    # generating code with progress bar
-    print("-- Generating --")
-    with tqdm(
-        total=image_details.height * image_details.width,
-        unit="px",
-    ) as pbar:
-        code += f"{image_details.name}: \n  Skills: \n"
-        for y_index, colors_at_y in enumerate(image_details.pixel_colors):
+    def __post_init__(self):
+        if self.mode is Mode.HORIZONTAL:
+            self.foward_offset = self.base_forward_offset
+            self.side_offset = self.image.width * self.particle_interval / 2 + self.base_side_offset
+            self.y_offset = self.image.height * self.particle_interval + self.base_y_offset
+        elif self.mode is Mode.VERTICAL:
+            self.foward_offset = self.image.height * -self.particle_interval / 2 \
+                + self.base_forward_offset
+            self.side_offset = self.image.width * self.particle_interval / 2 \
+                + self.base_forward_offset
+            self.y_offset = self.base_y_offset
+
+    def generate_code(self) -> Iterator[str]:
+        """Yields code using configurations from instance variables. """
+        yield f"{self.image.name}: \n  Skills: \n"
+        for y_index, colors_at_y in enumerate(self.image.pixel_colors):
             for x_index, color_at_xy in enumerate(colors_at_y):
                 if color_at_xy[3] == 0:
-                    pbar.update(1)
                     continue
                 # pylint: disable-next=C0209,C0301
-                code += "    - effect:particles{{particle={p};amount=1;color={c};Size={s};forwardOffset={fo};sideOffset={so};yOffset={y}}}\n".format(
-                    p=particle_type,
+                yield "    - effect:particles{{particle={p};amount=1;color={c};Size={s};forwardOffset={fo};sideOffset={so};yOffset={y}}}\n".format(
+                    p=self.particle_type.value,
                     c="#{0:02x}{1:02x}{2:02x}".format(  # pylint: disable=C0209
                         color_at_xy[0],
                         color_at_xy[1],
                         color_at_xy[2]
                     ),
-                    # Number rounding is needed due to inaccuracy on floating point number
-                    # calculations
-                    s=round(color_at_xy[3] / 255 * particle_size, 3),
-                    fo=round(foward_offset + y_index * particle_interval, 3) if mode == "VT" \
-                    else round(foward_offset, 3),
-                    so=round(side_offset - x_index * particle_interval, 3),
-                    y=round(y_offset, 3) if mode == "VT" \
-                    else round(y_offset - y_index * particle_interval, 3)
+                    # Number rounding is needed due to inaccuracy on floating point
+                    # number calculations
+                    s=round(color_at_xy[3] / 255 * self.particle_size, 3),
+                    fo=round(self.foward_offset + y_index * self.particle_interval, 3) \
+                    if self.mode is Mode.VERTICAL else round(self.foward_offset, 3),
+                    so=round(self.side_offset - x_index * self.particle_interval, 3),
+                    y=round(self.y_offset, 3) if self.mode is Mode.VERTICAL \
+                    else round(self.y_offset - y_index * self.particle_interval, 3)
                 )
-                pbar.update(1)
-
-    return code
