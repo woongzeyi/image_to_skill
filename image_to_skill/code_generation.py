@@ -107,8 +107,9 @@ class CodeGenerator:
     def generate_code(self) -> Iterator[str]:
         """Yields code using configurations from instance variables. """
         yield f"{self.image.name}: \n  Skills: \n"
-        for y_index, colors_at_y in enumerate(self.image.pixel_colors):
-            for x_index, color_at_xy in enumerate(colors_at_y):
+        for y_index in range(self.image.height):
+            for x_index in range(self.image.width):
+                color_at_xy = self.image.pixel_access[x_index, y_index]
                 if color_at_xy[3] == 0:
                     continue
                 # pylint: disable-next=C0209,C0301
