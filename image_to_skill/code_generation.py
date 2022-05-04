@@ -3,7 +3,7 @@
 from typing import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
-from image_to_skill.image_processor import ImageDetails
+from image_processor import ImageDetails
 
 
 class Mode(Enum):
