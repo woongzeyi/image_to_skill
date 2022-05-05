@@ -138,7 +138,9 @@ class mywindow():
         images_directory: str = getcwd() + "\\images"
         makedirs(images_directory, exist_ok=True)
 
-        if self.main_mode or self.type_particle or self.interval_particle or self.size_particle or self.base_forward or self.base_side or self.base_y == '':
+        if self.main_mode == '' or self.type_particle == '' or self.interval_particle == '':
+            showerror('Config Missing', 'Please fill up all the config blank or choose any mode in the listbox!')
+        elif self.size_particle == '' or self.base_forward == '' or self.base_side == '' or self.base_y == '':
             showerror('Config Missing', 'Please fill up all the config blank or choose any mode in the listbox!')
         else:
 
