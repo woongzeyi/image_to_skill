@@ -4,8 +4,8 @@ from os import makedirs, listdir, getcwd
 from os.path import isfile, join, splitext
 from typing import List
 from filetype import is_image
-from image_processor import ImageDetails
-from code_generation import CodeGenerator, Mode, ParticleType
+from .image_processor import ImageDetails
+from .code_generation import CodeGenerator, Mode, ParticleType
 
 from tkinter import Tk, StringVar, DISABLED, Listbox, END
 from tkinter.ttk import Button, Label, Entry, Frame
