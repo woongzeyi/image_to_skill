@@ -10,7 +10,6 @@ from code_generation import CodeGenerator, Mode, ParticleType
 from tkinter import Tk, StringVar, DISABLED, Listbox, END
 from tkinter.ttk import Button, Label, Entry, Frame
 from tkinter.messagebox import showinfo, showerror
-from ctypes import windll
 from webbrowser import open as webopen
 
 
@@ -23,9 +22,13 @@ class mywindow():
         self.root.title("ImageToSkill")
         self.root.wm_title("ImageToSkill")
 
-        windll.shcore.SetProcessDpiAwareness(1)
-        ScaleFactor = windll.shcore.GetScaleFactorForDevice(0)
-        self.root.tk.call('tk', 'scaling', ScaleFactor / 75)
+        try:
+            from ctypes import windll
+            windll.shcore.SetProcessDpiAwareness(1)
+            ScaleFactor = windll.shcore.GetScaleFactorForDevice(0)
+            self.root.tk.call('tk', 'scaling', ScaleFactor / 75)
+        except:
+            pass
 
         S_WIDTH = 775
         S_HEIGHT = 250
