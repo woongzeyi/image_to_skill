@@ -13,10 +13,10 @@ from tkinter.messagebox import showinfo, showerror
 from webbrowser import open as webopen
 
 
-class mywindow():
+class MyWindow():
 
     def __init__(self):
-        super(mywindow, self).__init__()
+        super(MyWindow, self).__init__()
         self.mode_option = {'Horizontal': 'HR', 'Vertical': 'VT'}
         self.root = Tk()
         self.root.title("ImageToSkill")
