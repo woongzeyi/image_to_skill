@@ -142,7 +142,7 @@ class MyWindow():
         self.base_y = self.y_offset_var.get()
 
         # Images need to be put into the `./images` directory
-        images_directory: str = getcwd() + "\\images"
+        images_directory: str = getcwd() + "/images"
         makedirs(images_directory, exist_ok=True)
 
         if self.main_mode == '' or self.type_particle == '' or self.interval_particle == '':
