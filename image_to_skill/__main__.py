@@ -120,6 +120,10 @@ class MyWindow():
         self.help_btn = Button(self.frame_inside_frame, text='Help', width=8, takefocus=False, command=self.get_help)
         self.help_btn.grid(row=3, column=1, pady=5)
 
+        self.particle_help = Button(self.frame_inside_frame, text='ParticleHelp', width=11, takefocus=False,
+                                    command=self.get_help_particle)
+        self.particle_help.grid(row=3, column=2)
+
         self.root.mainloop()
 
     def main(self):
@@ -181,6 +185,9 @@ class MyWindow():
 
     def get_help(self):
         webopen('https://github.com/woongzeyi/image_to_skill#image_to_skill')
+
+    def get_help_particle(self):
+        webopen('https://git.mythiccraft.io/mythiccraft/MythicMobs/-/wikis/skills/effects/particles/types')
 
 
 if __name__ == "__main__":
