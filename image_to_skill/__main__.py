@@ -47,7 +47,7 @@ class MyWindow():
         self.var1 = StringVar()
         self.entry1 = Entry(self.frame1, font=('Arial', 11), textvariable=self.var1, width=62)
         self.entry1.grid(row=0, column=1)
-        self.var1.set(getcwd() + '\\images')
+        self.var1.set(getcwd() + '/images')
         self.entry1.config(state=DISABLED)
 
         # 开始执行命令按钮
