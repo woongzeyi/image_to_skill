@@ -174,7 +174,7 @@ class MyWindow():
                             particle_interval=float(self.interval_particle),
                             particle_size=float(self.size_particle),
                             base_forward_offset=float(self.base_forward),
-                            base_side_offset=float(input(self.base_side)),
+                            base_side_offset=float(self.base_side),
                             base_y_offset=float(self.base_y),
                             image=ImageDetails.from_path(join(images_directory, i))
                         )
