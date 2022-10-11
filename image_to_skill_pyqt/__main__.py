@@ -27,7 +27,7 @@ class MyWindow(QMainWindow):
         self.showpath = getcwd() + '\\images'
         self.ui.pathLine.setText(self.showpath)
         self.ui.pathLine.setReadOnly(1)
-    
+
     def checkConfig(self):
 
         parti_type = self.ui.typeEdit.text()
@@ -49,10 +49,10 @@ class MyWindow(QMainWindow):
             QMessageBox.critical(self, 'Config Missing', 'Please fill up all config before click start button')
         else:
             if self.ui.ht_radio.isChecked():
-                mode = self.ui.ht_radio.text().upper()
+                mode = "HR"
                 self.main(mode)
             elif self.ui.vt_radio.isChecked():
-                mode = self.ui.vt_radio.text().upper()
+                mode = "VT"
                 self.main(mode)
             else:
                 QMessageBox.critical(self, 'Mode Invalid', 'Please choose a mode')
