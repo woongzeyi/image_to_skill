@@ -43,17 +43,17 @@ class MyWindow(QMainWindow):
         else:
             return False
 
-    def start(self):
+    async def start(self):
 
         if self.checkConfig():
             QMessageBox.critical(self, 'Config Missing', 'Please fill up all config before click start button')
         else:
             if self.ui.ht_radio.isChecked():
                 mode = "HR"
-                self.main(mode)
+                await self.main(mode)
             elif self.ui.vt_radio.isChecked():
                 mode = "VT"
-                self.main(mode)
+                await self.main(mode)
             else:
                 QMessageBox.critical(self, 'Mode Invalid', 'Please choose a mode')
 
